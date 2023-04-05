@@ -1,4 +1,3 @@
-import server from './backend/mock-server'
 import React from 'react'
 import AppFunctional from './frontend/components/AppFunctional'
 import AppClass from './frontend/components/AppClass'

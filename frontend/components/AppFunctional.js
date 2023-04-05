@@ -53,7 +53,7 @@ export default function AppFunctional(props) {
     if (index === 0 && direction === 'up') { setMessage("You can't go up"); setSteps(steps+1) }
     if (index === 0 && direction === 'right') { setIndex(1); setMessage(""); setSteps(steps+1); setX(2); setY(1) }
     if (index === 0 && direction === 'down') { setIndex(3); setMessage(""); setSteps(steps+1); setX(1); setY(2) }
-    if (index === 0 && direction === 'left') { setMessage("You cant go left") }
+    if (index === 0 && direction === 'left') { setMessage("You can't go left") }
 
     if (index === 1 && direction === 'up') { setMessage("You can't go up") }
     if (index === 1 && direction === 'right') { setIndex(2); setMessage(""); setSteps(steps+1); setX(3); setY(1) }
@@ -70,7 +70,7 @@ export default function AppFunctional(props) {
     if (index === 3 && direction === 'down') { setIndex(6); setMessage(""); setSteps(steps+1); setX(1); setY(3) }
     if (index === 3 && direction === 'left') { setMessage("You can't go left") }
 
-    if (index === 4 && direction === 'up') { setIndex(1); setMessage(""); setSteps(steps+1); setX(1); setY(2) }
+    if (index === 4 && direction === 'up') { setIndex(1); setMessage(""); setSteps(steps+1); setX(2); setY(1) }
     if (index === 4 && direction === 'right') { setIndex(5); setMessage(""); setSteps(steps+1); setX(3); setY(2) }
     if (index === 4 && direction === 'down') { setIndex(7); setMessage(""); setSteps(steps+1); setX(2); setY(3) }
     if (index === 4 && direction === 'left') { setIndex(3); setMessage(""); setSteps(steps+1); setX(1); setY(2) }
@@ -104,12 +104,12 @@ export default function AppFunctional(props) {
 
   function onChange(e) {
     // You will need this to update the value of the input.
-    console.log(e)
+    // console.log(e)
     e.preventDefault();
     setEmail(e.target.value);
     if (e.target.validity.valid === false) {
       setMessage("Ouch: email must be a valid email")
-    }
+    } else setMessage("");
 
   }
 
@@ -121,18 +121,25 @@ export default function AppFunctional(props) {
       console.log(res)
       setMessage(res.data.message)
     })
-    .catch(err => {
-      setMessage("Ouch: email is required")
+    .catch((err) => {
+      setMessage(err.response.data.message)
     })
 
     setEmail(initialEmail)
+  
+  }
+
+  function stepsMessage() {
+    if (steps === 1) {
+      return `${steps} time`
+    } else return `${steps} times`
   }
 
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">Coordinates ({x}, {y})</h3>
-        <h3 id="steps">You moved {steps} times</h3>
+        <h3 id="steps">You moved {stepsMessage()}</h3>
       </div>
       <div id="grid">
         {

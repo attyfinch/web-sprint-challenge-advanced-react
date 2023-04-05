@@ -81,7 +81,6 @@ export default class AppClass extends React.Component {
     if (this.state.index === 3 && direction === 'down') { this.setState({...this.setState, index: 6, message: "", steps: this.state.steps+1, x: 1, y: 3}) }
     if (this.state.index === 3 && direction === 'left') { this.setState({...this.setState, message: "You can't go left" }) }
 
-
     if (this.state.index === 4 && direction === 'up') { this.setState({...this.setState, index: 1, message: "", steps: this.state.steps + 1, x: 2, y: 1}) }
     if (this.state.index === 4 && direction === 'right') { this.setState({...this.setState, index: 5, message: "", steps: this.state.steps + 1, x: 3, y: 2}) }
     if (this.state.index === 4 && direction === 'down') { this.setState({...this.setState, index: 7, message: "", steps: this.state.steps + 1, x: 2, y: 3}) }
@@ -118,6 +117,11 @@ export default class AppClass extends React.Component {
     // You will need this to update the value of the input.
     e.preventDefault();
     this.setState({...this.setState, email: e.target.value});
+
+    if (e.target.validity.valid === false) {
+      this.setState({...this.setState, mmessage: "Ouch: email must be a valid email"})
+    } else this.setState({...this.setState, message: ""});
+
   }
 
   onSubmit = (e) => {
@@ -129,11 +133,16 @@ export default class AppClass extends React.Component {
       this.setState({...this.setState, message: res.data.message})
     })
     .catch(err => {
-      console.log('something is wrong')
+      this.setState({...this.setState, message: err.response.data.message})
     })
 
     this.setState({...this.setState, email: initialEmail})
+  }
 
+  stepsMessage = () => {
+    if (this.state.steps === 1) {
+      return `${this.state.steps} time`
+    } else return `${this.state.steps} times`
   }
 
   render() {
@@ -142,7 +151,7 @@ export default class AppClass extends React.Component {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">Coordinates ({this.state.x}, {this.state.y})</h3>
-          <h3 id="steps">You moved {this.state.steps} times</h3>
+          <h3 id="steps">You moved {this.stepsMessage()}</h3>
         </div>
         <div id="grid">
           {

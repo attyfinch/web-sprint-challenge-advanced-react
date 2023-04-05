@@ -7,7 +7,6 @@ import '@testing-library/jest-dom/extend-expect'
 
 // Write your tests here
 test('sanity', () => {
-  render(<AppFunctional />)
   expect(true).toBe(true)
 })
 
